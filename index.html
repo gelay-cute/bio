@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Biology I: Comprehensive Study Suite</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+    :root {
+      --bg-dark: #0f172a;
+      --bg-sidebar: #1e293b;
+      --bg-card: #1e293b;
+      --bg-card-hover: #334155;
+      --border-color: #334155;
+      --border-focus: #6366f1;
+      
+      --accent-primary: #6366f1;
+      --accent-hover: #4f46e5;
+      --accent-light: rgba(99, 102, 241, 0.15);
+      
+      --success: #10b981;
+      --success-bg: rgba(16, 185, 129, 0.15);
+      --danger: #ef4444;
+      --danger-bg: rgba(239, 68, 68, 0.15);
+      
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-subtle: #cbd5e1;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* SIDEBAR NAVIGATION */
+    aside {
+      width: 280px;
+      background: var(--bg-sidebar);
+      border-right: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      z-index: 10;
+    }
+
+    .brand {
+      padding: 1.5rem;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-main);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      letter-spacing: -0.01em;
+    }
+
+    .brand-icon {
+      width: 24px;
+      height: 24px;
+      background: var(--accent-primary);
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      font-weight: 800;
+    }
+
+    .nav-list {
+      list-style: none;
+      padding: 1rem 0.75rem;
+      overflow-y: auto;
+    }
+
+    .nav-section-title {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      padding: 0.75rem 0.75rem 0.35rem;
+      margin-top: 0.5rem;
+    }
+
+    .nav-item {
+      padding: 0.65rem 0.75rem;
+      color: var(--text-subtle);
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      border-radius: 6px;
+      margin-bottom: 0.2rem;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      border: 1px solid transparent;
+    }
+
+    .nav-item:hover {
+      color: var(--text-main);
+      background: var(--bg-card-hover);
+    }
+
+    .nav-item.active {
+      color: #fff;
+      background: var(--accent-primary);
+      font-weight: 600;
+    }
+
+    /* MAIN CONTENT DISPLAY */
+    main {
+      flex: 1;
+      padding: 2.5rem 3rem;
+      overflow-y: auto;
+      scroll-behavior: smooth;
+    }
+
+    .header-bar {
+      margin-bottom: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 1.25rem;
+    }
+
+    .search-box {
+      position: relative;
+    }
+
+    .search-input {
+      background: #0f172a;
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 0.6rem 1rem;
+      border-radius: 6px;
+      width: 300px;
+      outline: none;
+      font-size: 0.875rem;
+      transition: all 0.2s ease;
+    }
+
+    .search-input:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 2px var(--accent-light);
+      width: 340px;
+    }
+
+    .content-section {
+      display: none;
+      max-width: 1000px;
+      animation: fadeIn 0.25s ease-in-out;
+    }
+
+    .content-section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+      font-size: 1.85rem;
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+      color: var(--text-main);
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      margin-bottom: 1.75rem;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    /* CARDS & CONTAINERS */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
+
+    .card h2 {
+      color: var(--text-main);
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      letter-spacing: -0.01em;
+    }
+
+    p, li {
+      color: var(--text-subtle);
+      line-height: 1.65;
+      font-size: 0.925rem;
+    }
+
+    ul {
+      margin-left: 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+
+    /* TABBED NAVIGATION WITHIN CARDS */
+    .tab-container {
+      display: flex;
+      gap: 0.5rem;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.5rem;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 0.5rem 0.85rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 0.875rem;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn:hover {
+      color: var(--text-main);
+      background: var(--bg-card-hover);
+    }
+
+    .tab-btn.active {
+      background: var(--accent-light);
+      color: var(--accent-primary);
+      font-weight: 600;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* INTERACTIVE FLASHCARDS */
+    .flashcard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .flashcard {
+      height: 160px;
+      perspective: 1000px;
+      cursor: pointer;
+    }
+
+    .flashcard-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.5s ease;
+      transform-style: preserve-3d;
+      border-radius: 8px;
+    }
+
+    .flashcard.flipped .flashcard-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flashcard-front, .flashcard-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 8px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid var(--border-color);
+    }
+
+    .flashcard-front {
+      background: #0f172a;
+      color: var(--text-main);
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .flashcard-back {
+      background: var(--bg-card-hover);
+      color: var(--text-subtle);
+      transform: rotateY(180deg);
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
+
+    /* CONCEPT MATCHER GAME */
+    .game-board {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .match-card {
+      background: #0f172a;
+      border: 1px solid var(--border-color);
+      padding: 0.85rem;
+      border-radius: 6px;
+      cursor: pointer;
+      text-align: center;
+      font-weight: 500;
+      font-size: 0.875rem;
+      transition: all 0.2s ease;
+    }
+
+    .match-card:hover {
+      border-color: var(--accent-primary);
+    }
+
+    .match-card.selected {
+      border-color: var(--accent-primary);
+      background: var(--accent-light);
+      color: #fff;
+    }
+
+    .match-card.matched {
+      border-color: var(--success);
+      background: var(--success-bg);
+      color: var(--success);
+      pointer-events: none;
+    }
+
+    /* BUTTONS & CONTROLS */
+    .btn {
+      padding: 0.55rem 1.1rem;
+      border-radius: 6px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 0.875rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary {
+      background: var(--accent-primary);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-hover);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-subtle);
+      border: 1px solid var(--border-color);
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg-card-hover);
+      color: var(--text-main);
+    }
+
+    .option-btn {
+      display: block;
+      width: 100%;
+      text-align: left;
+      padding: 0.75rem 1rem;
+      margin: 0.4rem 0;
+      background: #0f172a;
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 0.875rem;
+    }
+
+    .option-btn:hover:not(:disabled) {
+      border-color: var(--accent-primary);
+      background: var(--accent-light);
+    }
+
+    .option-btn.correct {
+      background: var(--success-bg) !important;
+      color: var(--success) !important;
+      border-color: var(--success) !important;
+      font-weight: 600;
+    }
+
+    .option-btn.incorrect {
+      background: var(--danger-bg) !important;
+      color: var(--danger) !important;
+      border-color: var(--danger) !important;
+    }
+
+    .score-banner {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      padding: 1rem 1.25rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .num-input {
+      background: #0f172a;
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 0.45rem 0.6rem;
+      border-radius: 6px;
+      width: 65px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 0.875rem;
+    }
+
+    /* BADGES & TABLES */
+    .badge {
+      display: inline-block;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+    .badge-unit3 { background: rgba(99, 102, 241, 0.15); color: #818cf8; border: 1px solid rgba(99, 102, 241, 0.3); }
+    .badge-unit4 { background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    th, td {
+      border: 1px solid var(--border-color);
+      padding: 0.75rem 1rem;
+      text-align: left;
+      font-size: 0.875rem;
+    }
+
+    th {
+      background: #0f172a;
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    td {
+      background: var(--bg-card);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SIDEBAR NAVIGATION -->
+  <aside>
+    <div class="brand">
+      <span class="brand-icon">B</span> Biology I Suite
+    </div>
+    <ul class="nav-list">
+      <div class="nav-section-title">Unit 3: Cellular Foundations</div>
+      <li class="nav-item active" onclick="switchSection('cell-theory', this)">Cell Theory</li>
+      <li class="nav-item" onclick="switchSection('organelles', this)">Organelles Explorer</li>
+      <li class="nav-item" onclick="switchSection('transport', this)">Cell Transport</li>
+      <li class="nav-item" onclick="switchSection('microscopy', this)">Microscopy & History</li>
+      <li class="nav-item" onclick="switchSection('pro-euk', this)">Prokaryotes vs Eukaryotes</li>
+      
+      <div class="nav-section-title">Unit 4: Energetics & Cycle</div>
+      <li class="nav-item" onclick="switchSection('metabolism', this)">Cellular Energetics</li>
+      <li class="nav-item" onclick="switchSection('cell-cycle', this)">Cell Cycle & Checkpoints</li>
+      <li class="nav-item" onclick="switchSection('mitosis', this)">Mitosis Mechanics</li>
+      <li class="nav-item" onclick="switchSection('meiosis', this)">Meiosis & Diversity</li>
+
+      <div class="nav-section-title">Interactive Assessment</div>
+      <li class="nav-item" onclick="switchSection('match-game', this)">Concept Matcher</li>
+      <li class="nav-item" onclick="switchSection('quiz', this)">Assessment Engine</li>
+    </ul>
+  </aside>
+
+  <!-- MAIN DISPLAY -->
+  <main>
+    <div class="header-bar">
+      <div></div>
+      <div class="search-box">
+        <input type="text" class="search-input" id="searchInput" placeholder="Search modules or key terms..." onkeyup="filterContent()" />
+      </div>
+    </div>
+
+    <!-- SECTION: CELL THEORY -->
+    <div id="cell-theory" class="content-section active">
+      <h1>Unit 3: Foundations of Cell Theory</h1>
+      <p class="subtitle">A detailed breakdown of biogenesis, historical paradigm shifts, and core principles in cellular biology.</p>
+      
+      <div class="card searchable">
+        <h2><span class="badge badge-unit3">Unit 3</span> Refutation of Spontaneous Generation (Abiogenesis)</h2>
+        <p>For centuries, classical biology was dominated by the concept of spontaneous generation—the belief that living organisms could arise spontaneously from non-living matter[cite: 79]. Controlled experimentation systematically disproved this theory:</p>
+        <ul>
+          <li><strong>Abiogenesis Premise:</strong> Supposed that decaying organic material could directly generate living organisms (e.g., maggots from decaying meat) without biological parentage[cite: 79].</li>
+          <li><strong>Francesco Redi (1668):</strong> Performed controlled trials using three jars containing meat (uncovered, airtight sealed, and fine gauze covered)[cite: 79]. Maggots only developed in open jars where flies could lay eggs, establishing that macroscopic life does not spontaneously generate[cite: 79].</li>
+          <li><strong>Louis Pasteur (1861):</strong> Provided definitive proof against abiogenesis using swan-necked flasks[cite: 79, 80]. Nutrient broth was sterilized via boiling; the curved neck allowed free oxygen exchange while trapping airborne dust particles and spores in the bend[cite: 80]. The broth remained sterile indefinitely until the neck was severed, demonstrating that micro-organisms arise solely from pre-existing airborne microbes[cite: 79, 80].</li>
+        </ul>
+      </div>
+
+      <div class="card searchable">
+        <h2><span class="badge badge-unit3">Unit 3</span> Core Postulates of Modern Cell Theory</h2>
+        <ul>
+          <li><strong>1. Universal Cellular Composition:</strong> All living organisms—ranging from single-celled prokaryotes to complex multicellular eukaryotes—are composed of one or more cells[cite: 8, 9, 15].</li>
+          <li><strong>2. Primary Structural & Functional Unit:</strong> The cell represents the structural baseline and functional unit of biological organization capable of autonomous metabolic activity[cite: 8, 9, 15].</li>
+          <li><strong>3. Biogenesis Principle:</strong> All living cells originate strictly from pre-existing, viable living cells through cellular division processes[cite: 8, 9, 16].</li>
+          <li><strong>4. Hereditary Continuity:</strong> Cells store genetic information encoded within DNA, which is accurately replicated and transmitted to daughter cells during division[cite: 7, 8, 9, 17].</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>Concept Review Cards</h2>
+        <p style="margin-bottom:0.8rem;">Select a card to reveal the underlying definition.</p>
+        <div class="flashcard-grid">
+          <div class="flashcard" onclick="this.classList.toggle('flipped')">
+            <div class="flashcard-inner">
+              <div class="flashcard-front">Swan-Necked Flask Experiment</div>
+              <div class="flashcard-back">Engineered by Louis Pasteur to permit oxygen entry while preventing airborne particle ingress, permanently disproving abiogenesis[cite: 79, 80].</div>
+            </div>
+          </div>
+          <div class="flashcard" onclick="this.classList.toggle('flipped')">
+            <div class="flashcard-inner">
+              <div class="flashcard-front">Principle of Biogenesis</div>
+              <div class="flashcard-back">The biological rule that all living cells can only arise through the division of pre-existing living cells[cite: 8, 9, 16].</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION: ORGANELLES EXPLORER -->
+    <div id="organelles" class="content-section">
+      <h1>Unit 3: Subcellular Organelles</h1>
+      <p class="subtitle">Select a module tab to review specific eukaryotic organelle systems.</p>
+
+      <div class="card searchable">
+        <div class="tab-container">
+          <button class="tab-btn active" onclick="openTab(event, 'nucleus-tab')">Nucleus & Endomembrane</button>
+          <button class="tab-btn" onclick="openTab(event, 'energy-tab')">Energy Converters</button>
+          <button class="tab-btn" onclick="openTab(event, 'cytoskeleton-tab')">Cytoskeletal Architecture</button>
+        </div>
+
+        <div id="nucleus-tab" class="tab-content active">
+          <h3>The Endomembrane System</h3>
+          <ul style="margin-top: 1rem;">
+            <li><strong>Nucleus:</strong> Encased in a double-membrane nuclear envelope embedded with nuclear pore complexes[cite: 37, 46, 83]. Stores chromatin (DNA-protein complex) and contains the nucleolus, the site of ribosomal RNA (rRNA) transcription and ribosome assembly[cite: 46, 83].</li>
+            <li><strong>Rough Endoplasmic Reticulum (RER):</strong> Membranous network studded with membrane-bound ribosomes[cite: 37]. Synthesizes, folds, and provides quality control for membrane-bound and secreted proteins[cite: 37].</li>
+            <li><strong>Smooth Endoplasmic Reticulum (SER):</strong> Lacks attached ribosomes. Responsible for lipid synthesis (phospholipids and steroids), carbohydrate metabolism, and enzymatic detoxification of metabolic byproducts and toxins.</li>
+            <li><strong>Golgi Apparatus:</strong> Series of flattened membranous cisternae displaying structural polarity (cis face to trans face)[cite: 37, 38]. Receives vesicles from the RER, modifies glycosylation patterns, and sorts molecules into transport or lysosomal vesicles[cite: 37, 38].</li>
+            <li><strong>Lysosomes & Peroxisomes:</strong> Membrane-bound compartments housing hydrolytic enzymes for intracellular digestion (lysosomes) or oxidative enzymes for metabolic neutralization (peroxisomes).</li>
+          </ul>
+        </div>
+
+        <div id="energy-tab" class="tab-content">
+          <h3>Bioenergetic Organelles</h3>
+          <ul style="margin-top: 1rem;">
+            <li><strong>Mitochondria:</strong> Double-membrane organelles possessing semi-autonomous circular DNA and 70S ribosomes[cite: 37, 38]. Features a smooth outer membrane and a folded inner membrane (cristae) optimizing surface area for electron transport chain complexes and ATP synthase[cite: 37, 38, 40]. Site of aerobic respiration[cite: 37, 38, 40].</li>
+            <li><strong>Chloroplasts:</strong> Double-membrane structures in plant and algal cells containing thylakoids arranged in stacks (grana) surrounded by stroma. Contain chlorophyll pigments to capture light energy during photosynthesis.</li>
+          </ul>
+        </div>
+
+        <div id="cytoskeleton-tab" class="tab-content">
+          <h3>Structural Framework</h3>
+          <ul style="margin-top: 1rem;">
+            <li><strong>Microtubules:</strong> Cylindrical polymers composed of tubulin dimers. Facilitate intracellular vesicle transport via motor proteins, form centrioles and the mitotic spindle apparatus, and power cilia and flagella.</li>
+            <li><strong>Microfilaments (Actin):</strong> Double-stranded helical polymers of actin. Responsible for cell motility, cortical tension, muscle contraction interaction, and forming the contractile ring during cytokinesis.</li>
+            <li><strong>Intermediate Filaments:</strong> Tough, fibrous protein cables providing mechanical strength, maintaining cell shape, and anchoring the nucleus and organelles.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION: CELL TRANSPORT -->
+    <div id="transport" class="content-section">
+      <h1>Unit 3: Plasma Membrane Transport</h1>
+      <p class="subtitle">Mechanisms governing passive solute diffusion and active carrier-mediated transport.</p>
+
+      <div class="card searchable">
+        <h2><span class="badge badge-unit3">Unit 3</span> Passive Transport Mechanisms</h2>
+        <ul>
+          <li><strong>Simple Diffusion:</strong> Unassisted movement of small, nonpolar hydrophobic molecules (e.g., O2, CO2) directly across the phospholipid bilayer down a concentration gradient (high to low concentration).</li>
+          <li><strong>Facilitated Diffusion:</strong> Passive movement of polar or charged solute molecules across the membrane mediated by channel or carrier proteins without cellular energy expenditure.</li>
+          <li><strong>Osmosis:</strong> Net movement of water molecules across a selectively permeable membrane toward a higher solute concentration:
+            <ul>
+              <li><em>Hypertonic Solution:</em> Higher solute concentration outside the cell → net water efflux (cell shrinks/plasmolyzes).</li>
+              <li><em>Hypotonic Solution:</em> Lower solute concentration outside the cell → net water influx (cell swells/turgid).</li>
+              <li><em>Isotonic Solution:</em> Equal solute concentration inside and outside → no net water movement.</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+      <div class="card searchable">
+        <h2><span class="badge badge-unit3">Unit 3</span> Active & Bulk Transport Processes</h2>
+        <ul>
+          <li><strong>Primary Active Transport:</strong> Direct consumption of ATP hydrolysis energy to transport molecules against their concentration gradient (low to high concentration).
+            <p style="margin-top:0.3rem;"><em>Sodium-Potassium Pump (Na+/K+ ATPase):</em> Transports 3 Na+ ions out of the cell and 2 K+ ions into the cell per ATP consumed, maintaining cellular membrane potential.</p>
+          </li>
+          <li><strong>Secondary Active Transport:</strong> Coupled transport utilizing the potential energy of an electrochemical gradient (established by primary active transport) to move a second solute against its gradient.</li>
+          <li><strong>Bulk Transport:</strong>
+            <ul>
+              <li><em>Endocytosis:</em> Vesicular uptake of macromolecules (Phagocytosis = particle uptake; Pinocytosis = fluid uptake; Receptor-Mediated = target ligand binding).</li>
+              <li><em>Exocytosis:</em> Secretory vesicles fuse with the plasma membrane to export proteins and extracellular components.</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- SECTION: MICROSCOPY & HISTORY -->
+    <div id="microscopy" class="content-section">
+      <h1>Unit 3: Microscopy & Biological Discovery</h1>
+      <div class="card searchable">
+        <h2>Historical Developments in Cytology</h2>
+        <ul>
+          <li><strong>Robert Hooke (1665):</strong> Examined cork sections under an early compound microscope and coined the term "cell" based on their structural appearance[cite: 81].</li>
+          <li><strong>Antoine van Leeuwenhoek (1670s):</strong> Designed high-quality single-lens microscopes[cite: 82]. First to observe living microorganisms, including protozoa and bacteria ("animalcules")[cite: 82, 83].</li>
+          <li><strong>Robert Brown (1831):</strong> Identified and named the cell nucleus while observing plant tissue[cite: 83].</li>
+          <li><strong>Schleiden & Schwann (1838–1839):</strong> Proposed that plant tissues (Schleiden) and animal tissues (Schwann) are fundamentally composed of cells.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- SECTION: PROKARYOTE VS EUKARYOTE -->
+    <div id="pro-euk" class="content-section">
+      <h1>Unit 3: Prokaryotic vs. Eukaryotic Cells</h1>
+      <div class="card searchable">
+        <h2>Structural Comparison Matrix</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Prokaryotic Organization</th>
+              <th>Eukaryotic Organization</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Nuclear Structure</strong></td>
+              <td>No membrane-bound nucleus; genetic material concentrated in a nucleoid[cite: 37, 38].</td>
+              <td>Membrane-bound nucleus with nuclear envelope and pores[cite: 37, 38].</td>
+            </tr>
+            <tr>
+              <td><strong>DNA Configuration</strong></td>
+              <td>Single circular chromosome; often contains extra-chromosomal plasmids.</td>
+              <td>Multiple linear chromosomes complexed with histone proteins.</td>
+            </tr>
+            <tr>
+              <td><strong>Organelle Compartmentalization</strong></td>
+              <td>Lacks membrane-bound organelles[cite: 37, 38].</td>
+              <td>Contains specialized membrane-bound organelles (ER, Golgi, Mitochondria)[cite: 37, 38].</td>
+            </tr>
+            <tr>
+              <td><strong>Ribosomes</strong></td>
+              <td>70S ribosomes (30S and 50S subunits).</td>
+              <td>80S ribosomes in cytosol/RER; 70S inside organelles.</td>
+            </tr>
+            <tr>
+              <td><strong>Representative Organisms</strong></td>
+              <td>Domain Bacteria and Domain Archaea.</td>
+              <td>Protists, Fungi, Plants, and Animals.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- SECTION: ENERGETICS -->
+    <div id="metabolism" class="content-section">
+      <h1>Unit 3/4: Bioenergetics</h1>
+      <p class="subtitle">Pathways governing cellular energy transformation and ATP production.</p>
+
+      <div class="card searchable">
+        <h2><span class="badge badge-unit4">Unit 4</span> Cellular Respiration Pathways</h2>
+        <p>The aerobic catabolism of glucose into cellular energy (ATP) proceeds through three main stages:</p>
+        <ul>
+          <li><strong>1. Glycolysis (Cytosol):</strong> Anaerobic breakdown of 6-carbon glucose into two 3-carbon pyruvate molecules. Yields a <strong>net 2 ATP</strong> (via substrate-level phosphorylation) and 2 NADH.</li>
+          <li><strong>2. Citric Acid Cycle (Mitochondrial Matrix):</strong> Oxidation of pyruvate to Acetyl-CoA followed by cyclic degradation. Yields <strong>2 ATP</strong>, 6 NADH, and 2 FADH2, releasing CO2 as a byproduct.</li>
+          <li><strong>3. Oxidative Phosphorylation (Inner Mitochondrial Membrane):</strong> High-energy electrons from NADH and FADH2 power proton pumping across the inner membrane. Proton flow through ATP Synthase (chemiosmosis) yields <strong>~26 to 28 ATP</strong> (Total yield: ~30-32 ATP).</li>
+        </ul>
+      </div>
+
+      <div class="card searchable">
+        <h2><span class="badge badge-unit3">Unit 3</span> Photosynthetic Pathways</h2>
+        <ul>
+          <li><strong>Light-Dependent Reactions (Thylakoid Membrane):</strong> Photons excite chlorophyll reaction centers. Water photolysis generates oxygen gas, while electron transfer produces ATP and NADPH.</li>
+          <li><strong>Calvin Cycle (Stroma):</strong> Carbon fixation pathway driven by the enzyme Rubisco. Utilizes ATP and NADPH to fix CO2 into G3P, generating precursor molecules for glucose synthesis.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- SECTION: CELL CYCLE -->
+    <div id="cell-cycle" class="content-section">
+      <h1>Unit 4: The Cell Cycle & Control Points</h1>
+      <div class="card searchable">
+        <h2>Interphase & Regulatory Checkpoints</h2>
+        <ul>
+          <li><strong>Interphase Stages:</strong>
+            <ul>
+              <li><strong>G1 Phase (First Gap):</strong> Cellular growth, protein synthesis, and metabolic preparation[cite: 52].</li>
+              <li><strong>S Phase (Synthesis):</strong> Replication of genomic DNA resulting in paired sister chromatids[cite: 52, 53].</li>
+              <li><strong>G2 Phase (Second Gap):</strong> Final growth phase, organelle duplication, and preparation for nuclear division[cite: 53, 54].</li>
+            </ul>
+          </li>
+          <li><strong>Cell Cycle Checkpoints:</strong>
+            <ul>
+              <li><strong>G1 Checkpoint (Restriction Point):</strong> Assesses nutrient supply, growth signals, and DNA integrity[cite: 58]. Unfavorable conditions trigger entry into non-dividing G0 state[cite: 58].</li>
+              <li><strong>G2 Checkpoint:</strong> Verifies complete and error-free DNA replication prior to mitosis[cite: 58].</li>
+              <li><strong>M Checkpoint (Spindle Assembly):</strong> Ensures proper attachment of kinetochores to spindle fibers before initiating anaphase chromosome separation[cite: 57, 59].</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- SECTION: MITOSIS -->
+    <div id="mitosis" class="content-section">
+      <h1>Unit 4: Mitosis & Cytokinesis</h1>
+      <p class="subtitle">Nuclear division yielding two genetically identical diploid (2n) daughter nuclei.</p>
+
+      <div class="card searchable">
+        <div class="tab-container">
+          <button class="tab-btn active" onclick="openTab(event, 'pro-meta')">Prophase & Metaphase</button>
+          <button class="tab-btn" onclick="openTab(event, 'ana-telo')">Anaphase & Telophase</button>
+          <button class="tab-btn" onclick="openTab(event, 'cyto-tab')">Cytokinesis Comparison</button>
+        </div>
+
+        <div id="pro-meta" class="tab-content active">
+          <ul>
+            <li><strong>Prophase / Prometaphase:</strong> Chromatin condenses into visible chromosomes (sister chromatids bound at the centromere)[cite: 66]. The nucleolus disappears and the nuclear envelope breaks down[cite: 66]. Spindle fibers extend from centrosomes and attach to kinetochores[cite: 66].</li>
+            <li><strong>Metaphase:</strong> Chromosomes align along the equatorial <strong>Metaphase Plate</strong> under tension from opposing kinetochore microtubules[cite: 66].</li>
+          </ul>
+        </div>
+
+        <div id="ana-telo" class="tab-content">
+          <ul>
+            <li><strong>Anaphase:</strong> Proteolytic cleavage of cohesin proteins allows sister chromatids to separate[cite: 66]. Microtubules shorten, pulling daughter chromosomes to opposite spindle poles[cite: 66].</li>
+            <li><strong>Telophase:</strong> Chromosomes reach poles and decondense back into chromatin[cite: 66]. Nuclear envelopes reassemble around each daughter genome, nucleoli reform, and spindle fibers disassemble[cite: 66].</li>
+          </ul>
+        </div>
+
+        <div id="cyto-tab" class="tab-content">
+          <ul>
+            <li><strong>Animal Cell Cytokinesis:</strong> A contractile ring of microfilaments (actin and myosin) pinches the plasma membrane inward, forming a <strong>Cleavage Furrow</strong> that separates the cell[cite: 66, 73].</li>
+            <li><strong>Plant Cell Cytokinesis:</strong> Golgi-derived vesicles transport cell wall materials to the equator, coalescing to form a <strong>Cell Plate</strong> that develops into a dividing cell wall[cite: 66, 73].</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION: MEIOSIS -->
+    <div id="meiosis" class="content-section">
+      <h1>Unit 4: Meiosis & Genetic Variation</h1>
+      <div class="card searchable">
+        <h2>Reduction Division Mechanics</h2>
+        <p>Meiosis comprises two sequential nuclear divisions (Meiosis I and II) reducing a diploid (2n) germ cell into four distinct haploid (1n) gametes.</p>
+        <ul>
+          <li><strong>Meiosis I (Reductional Division):</strong>
+            <ul>
+              <li><em>Prophase I & Crossing Over:</em> Homologous chromosomes pair via synapsis to form tetrads. Non-sister chromatids exchange genetic material at chiasmata, generating novel gene combinations.</li>
+              <li><em>Metaphase I & Independent Assortment:</em> Homologous pairs align randomly in double rows along the metaphase plate.</li>
+              <li><em>Anaphase I / Telophase I:</em> Homologous chromosomes separate to opposite poles (sister chromatids remain intact), reducing ploidy from diploid (2n) to haploid (1n).</li>
+            </ul>
+          </li>
+          <li><strong>Meiosis II (Equational Division):</strong> Sister chromatids separate in a sequence analogous to mitosis, yielding four unique haploid gametes.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- SECTION: CONCEPT MATCHER GAME -->
+    <div id="match-game" class="content-section">
+      <h1>Concept Matching Exercise</h1>
+      <p class="subtitle">Match the term on the left with its corresponding biological definition on the right.</p>
+
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+          <span style="font-weight:600; font-size:0.9rem;">Matched Pairs: <strong id="gameScore" style="color:var(--accent-primary)">0</strong> / 4</span>
+          <button class="btn btn-secondary" onclick="initGame()">Reset Exercise</button>
+        </div>
+        <div class="game-board" id="gameBoard">
+          <!-- Dynamically populated via JavaScript -->
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION: CUSTOM QUIZ GENERATOR -->
+    <div id="quiz" class="content-section">
+      <h1>Assessment Engine</h1>
+      <p class="subtitle">Select your desired test size and complete the self-assessment module.</p>
+
+      <div class="score-banner">
+        <div>
+          <span style="font-size:0.9rem; color:var(--text-muted);">Current Score: <strong id="scoreDisplay" style="color:var(--text-main); font-size:1.1rem;">0 / 0</strong></span>
+        </div>
+        <div style="display:flex; align-items:center; gap:0.75rem;">
+          <label for="questionCount" style="font-size:0.875rem; font-weight:500;">Questions:</label>
+          <input type="number" id="questionCount" class="num-input" value="10" min="1" max="40" />
+          <button class="btn btn-primary" onclick="generateCustomQuiz()">Generate Assessment</button>
+          <button class="btn btn-secondary" onclick="resetQuiz()">Reset</button>
+        </div>
+      </div>
+
+      <div id="quizContainer"></div>
+    </div>
+
+  </main>
+
+  <script>
+    // AUDIO SYNTHESIZER (Subtle professional audio feedback)
+    function playAudioFeedback(isCorrect) {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        if (isCorrect) {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(587.33, ctx.currentTime); // D5
+          gain.gain.setValueAtTime(0.08, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2);
+          osc.start();
+          osc.stop(ctx.currentTime + 0.2);
+        } else {
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(220, ctx.currentTime); // A3
+          gain.gain.setValueAtTime(0.08, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2);
+          osc.start();
+          osc.stop(ctx.currentTime + 0.2);
+        }
+      } catch (e) {
+        // Fallback for restricted WebAudio contexts
+      }
+    }
+
+    // NAVIGATION SYSTEM
+    function switchSection(sectionId, element) {
+      document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+
+      document.getElementById(sectionId).classList.add('active');
+      element.classList.add('active');
+
+      document.getElementById('searchInput').value = '';
+      filterContent();
+
+      if (sectionId === 'match-game') initGame();
+    }
+
+    // SEARCH FILTER
+    function filterContent() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      const activeSection = document.querySelector('.content-section.active');
+      const cards = activeSection.querySelectorAll('.searchable');
+
+      cards.forEach(card => {
+        const text = card.textContent.toLowerCase();
+        card.style.display = text.includes(query) ? 'block' : 'none';
+      });
+    }
+
+    // TAB SYSTEM
+    function openTab(evt, tabId) {
+      const parentCard = evt.currentTarget.closest('.card');
+      parentCard.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      parentCard.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+      evt.currentTarget.classList.add('active');
+      document.getElementById(tabId).classList.add('active');
+    }
+
+    // CONCEPT MATCHING EXERCISE
+    const gamePairs = [
+      { term: "Pasteur's Swan-Necked Flask", def: "Disproved spontaneous generation while permitting oxygen exchange[cite: 79, 80]" },
+      { term: "Na+/K+ ATPase Pump", def: "Transports 3 Na+ ions out and 2 K+ ions in using ATP" },
+      { term: "S Phase", def: "Interphase period dedicated to nuclear DNA replication[cite: 52, 53]" },
+      { term: "Crossing Over", def: "Homologous recombination occurring during Prophase I" }
+    ];
+
+    let selectedTerm = null;
+    let selectedDef = null;
+    let matchedCount = 0;
+
+    function initGame() {
+      const board = document.getElementById('gameBoard');
+      board.innerHTML = '';
+      selectedTerm = null;
+      selectedDef = null;
+      matchedCount = 0;
+      document.getElementById('gameScore').textContent = '0';
+
+      const terms = gamePairs.map((p, idx) => ({ text: p.term, id: idx, type: 'term' })).sort(() => 0.5 - Math.random());
+      const defs = gamePairs.map((p, idx) => ({ text: p.def, id: idx, type: 'def' })).sort(() => 0.5 - Math.random());
+
+      terms.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'match-card';
+        div.textContent = item.text;
+        div.onclick = () => handleGameSelect(div, item);
+        board.appendChild(div);
+      });
+
+      defs.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'match-card';
+        div.textContent = item.text;
+        div.onclick = () => handleGameSelect(div, item);
+        board.appendChild(div);
+      });
+    }
+
+    function handleGameSelect(elem, item) {
+      if (elem.classList.contains('matched')) return;
+
+      if (item.type === 'term') {
+        document.querySelectorAll('.match-card').forEach(c => { if(c.dataset.type === 'term') c.classList.remove('selected'); });
+        elem.classList.add('selected');
+        elem.dataset.type = 'term';
+        selectedTerm = { elem, id: item.id };
+      } else {
+        document.querySelectorAll('.match-card').forEach(c => { if(c.dataset.type === 'def') c.classList.remove('selected'); });
+        elem.classList.add('selected');
+        elem.dataset.type = 'def';
+        selectedDef = { elem, id: item.id };
+      }
+
+      if (selectedTerm && selectedDef) {
+        if (selectedTerm.id === selectedDef.id) {
+          selectedTerm.elem.className = 'match-card matched';
+          selectedDef.elem.className = 'match-card matched';
+          playAudioFeedback(true);
+          matchedCount++;
+          document.getElementById('gameScore').textContent = matchedCount;
+        } else {
+          playAudioFeedback(false);
+          const t = selectedTerm.elem;
+          const d = selectedDef.elem;
+          setTimeout(() => {
+            t.classList.remove('selected');
+            d.classList.remove('selected');
+          }, 350);
+        }
+        selectedTerm = null;
+        selectedDef = null;
+      }
+    }
+
+    // MASTER QUESTION BANK (40 Questions)
+    const masterQuestionBank = [
+      { question: "Which experiment permanently disproved spontaneous generation?", options: ["Redi's Jar Experiment", "Pasteur's Swan-Necked Flask Experiment", "Hooke's Cork Observations", "Virchow's Pathology Studies"], correct: 1 },
+      { question: "In which sub-phase of Interphase is cellular DNA replicated?", options: ["G1 Phase", "S Phase", "G2 Phase", "M Phase"], correct: 1 },
+      { question: "Which membrane transport mechanism directly hydrolyzes ATP to move solutes against a gradient?", options: ["Osmosis", "Simple Diffusion", "Primary Active Transport", "Facilitated Diffusion"], correct: 2 },
+      { question: "Which organelle is the primary site of oxidative phosphorylation and ATP generation?", options: ["Golgi Apparatus", "Lysosome", "Mitochondria", "Ribosome"], correct: 2 },
+      { question: "During which phase of meiosis does genetic crossing over occur?", options: ["Prophase I", "Prophase II", "Metaphase I", "Anaphase I"], correct: 0 },
+      { question: "Which scientist coined the term 'cell' while observing cork under a microscope?", options: ["Robert Hooke", "Antoine van Leeuwenhoek", "Robert Brown", "Theodor Schwann"], correct: 0 },
+      { question: "Which organelle sorts, modifies, and packages proteins for transport?", options: ["Rough ER", "Golgi Apparatus", "Smooth ER", "Peroxisome"], correct: 1 },
+      { question: "What is the primary cellular yield of mitosis followed by cytokinesis?", options: ["Four haploid cells", "Two identical diploid cells", "Two non-identical diploid cells", "Four diploid cells"], correct: 1 },
+      { question: "What is the stoichiometric ion exchange performed by the Na+/K+ ATPase pump per ATP consumed?", options: ["2 Na+ in, 3 K+ out", "3 Na+ out, 2 K+ in", "3 Na+ in, 2 K+ out", "2 Na+ out, 2 K+ in"], correct: 1 },
+      { question: "Which stage of aerobic cellular respiration generates the majority of ATP?", options: ["Glycolysis", "Citric Acid Cycle", "Oxidative Phosphorylation", "Fermentation"], correct: 2 },
+      { question: "Prokaryotic genetic material is localized within which region?", options: ["Nucleolus", "Nucleus", "Nucleoid", "Capsule"], correct: 2 },
+      { question: "Which organelle is responsible for lipid synthesis and metabolic toxin detoxification?", options: ["Smooth ER", "Rough ER", "Ribosome", "Lysosome"], correct: 0 },
+      { question: "The diffusion of water across a selectively permeable membrane down its concentration gradient is:", options: ["Active Transport", "Osmosis", "Phagocytosis", "Pinocytosis"], correct: 1 },
+      { question: "Which cell cycle checkpoint ensures all kinetochores are attached to spindle fibers?", options: ["G1 Checkpoint", "G2 Checkpoint", "M Checkpoint", "S Checkpoint"], correct: 2 },
+      { question: "Human somatic cells possess which ploidy status?", options: ["Haploid (1n)", "Diploid (2n)", "Triploid (3n)", "Tetraploid (4n)"], correct: 1 },
+      { question: "Who conducted meat jar experiments challenging spontaneous generation in 1668?", options: ["Francesco Redi", "Louis Pasteur", "Matthias Schleiden", "Robert Brown"], correct: 0 },
+      { question: "According to Cell Theory, what constitutes the basic functional unit of life?", options: ["Organ", "Tissue", "Cell", "Organelle"], correct: 2 },
+      { question: "During which phase of mitosis do sister chromatids separate toward opposite poles?", options: ["Prophase", "Metaphase", "Anaphase", "Telophase"], correct: 2 },
+      { question: "Ribosomal RNA (rRNA) synthesis and ribosome subunit assembly occur in the:", options: ["Chromatin", "Nucleolus", "Nuclear Envelope", "Nuclear Pore"], correct: 1 },
+      { question: "Independent assortment of maternal and paternal homologous pairs occurs during:", options: ["Metaphase I", "Metaphase II", "Anaphase II", "Prophase I"], correct: 0 },
+      { question: "Which process yields four genetically distinct haploid gametes?", options: ["Mitosis", "Binary Fission", "Meiosis", "Budding"], correct: 2 },
+      { question: "Where does Glycolysis occur within eukaryotic cells?", options: ["Mitochondrial Matrix", "Cytosol", "Inner Mitochondrial Membrane", "Thylakoid"], correct: 1 },
+      { question: "Lysosomes facilitate intracellular digestion through which component?", options: ["Ribosomes", "Hydrolytic enzymes", "Electron transport proteins", "Photosynthetic pigments"], correct: 1 },
+      { question: "A solution exhibiting a higher solute concentration relative to a cell's cytoplasm is:", options: ["Isotonic", "Hypotonic", "Hypertonic", "Iso-osmotic"], correct: 2 },
+      { question: "Which cytoskeletal structure composes the spindle apparatus during nuclear division?", options: ["Microtubules", "Actin Microfilaments", "Intermediate Filaments", "Myosin"], correct: 0 },
+      { question: "What occurs when a plant cell is placed in a hypotonic environment?", options: ["Cell lysis", "It becomes turgid", "Plasmolysis", "Cell shrinkage"], correct: 1 },
+      { question: "Which phase accounts for the largest proportion of the cell cycle?", options: ["Interphase", "Prophase", "Anaphase", "Telophase"], correct: 0 },
+      { question: "Light-dependent reactions of photosynthesis occur within the:", options: ["Stroma", "Thylakoid membrane", "Outer membrane", "Mitochondrial matrix"], correct: 1 },
+      { question: "Which electron microscope technique provides high-resolution 2D internal structural images?", options: ["SEM (Scanning Electron)", "TEM (Transmission Electron)", "Light Microscope", "Fluorescence Microscope"], correct: 1 },
+      { question: "Regulated, programmed cell death utilized in tissue homeostasis is termed:", options: ["Necrosis", "Apoptosis", "Cytokinesis", "Autophagy"], correct: 1 },
+      { question: "In animal cell cytokinesis, what structure pinches the membrane to divide the cell?", options: ["Cleavage furrow (Actin ring)", "Cell plate", "Microtubule ring", "Cellulose wall"], correct: 0 },
+      { question: "Carbon fixation via the Calvin Cycle takes place within the chloroplast:", options: ["Thylakoid Lumen", "Stroma", "Granum", "Matrix"], correct: 1 },
+      { question: "Passive movement of solutes down a concentration gradient via carrier proteins is:", options: ["Active transport", "Facilitated diffusion", "Endocytosis", "Exocytosis"], correct: 1 },
+      { question: "Which biological principle states that all cells arise from pre-existing living cells?", options: ["Biogenesis", "Abiogenesis", "Spontaneous generation", "Endosymbiosis"], correct: 0 },
+      { question: "Vesicular ingestion of fluid and dissolved solutes by a cell is classified as:", options: ["Phagocytosis", "Pinocytosis", "Exocytosis", "Facilitated diffusion"], correct: 1 },
+      { question: "What is the net ATP yield produced per glucose molecule during Glycolysis?", options: ["1 ATP", "2 ATP", "4 ATP", "36 ATP"], correct: 1 },
+      { question: "Pairing of homologous chromosomes during Prophase I of meiosis is known as:", options: ["Synapsis", "Karyokinesis", "Cytokinesis", "Chiasmata"], correct: 0 },
+      { question: "Which selectively permeable structure encloses all living cellular units?", options: ["Cell Wall", "Plasma Membrane", "Nuclear Envelope", "Capsule"], correct: 1 },
+      { question: "Chromosomes line up along the equatorial plane during which phase of mitosis?", options: ["Prophase", "Metaphase", "Anaphase", "Telophase"], correct: 1 },
+      { question: "Plant cell walls are predominantly composed of which structural carbohydrate?", options: ["Chitin", "Glycogen", "Cellulose", "Starch"], correct: 2 }
+    ];
+
+    let currentQuiz = [];
+    let userScore = 0;
+
+    function generateCustomQuiz() {
+      const inputVal = parseInt(document.getElementById('questionCount').value) || 10;
+      const numQuestions = Math.min(Math.max(1, inputVal), masterQuestionBank.length);
+
+      currentQuiz = [...masterQuestionBank]
+        .sort(() => 0.5 - Math.random())
+        .slice(0, numQuestions);
+
+      renderQuiz();
+    }
+
+    function renderQuiz() {
+      const container = document.getElementById('quizContainer');
+      container.innerHTML = '';
+      userScore = 0;
+      updateScoreDisplay();
+
+      currentQuiz.forEach((q, qIndex) => {
+        const card = document.createElement('div');
+        card.className = 'card quiz-question';
+        
+        const qText = document.createElement('p');
+        qText.style.fontWeight = '600';
+        qText.style.fontSize = '0.95rem';
+        qText.style.marginBottom = '0.75rem';
+        qText.textContent = `${qIndex + 1}. ${q.question}`;
+        card.appendChild(qText);
+
+        q.options.forEach((opt, optIndex) => {
+          const btn = document.createElement('button');
+          btn.className = 'option-btn';
+          btn.textContent = opt;
+          btn.onclick = () => handleAnswer(btn, optIndex, q.correct, card);
+          card.appendChild(btn);
+        });
+
+        container.appendChild(card);
+      });
+    }
+
+    function handleAnswer(selectedBtn, selectedIndex, correctIndex, parentCard) {
+      const buttons = parentCard.querySelectorAll('.option-btn');
+      buttons.forEach(btn => btn.disabled = true);
+
+      if (selectedIndex === correctIndex) {
+        selectedBtn.classList.add('correct');
+        playAudioFeedback(true);
+        userScore++;
+      } else {
+        selectedBtn.classList.add('incorrect');
+        playAudioFeedback(false);
+        buttons[correctIndex].classList.add('correct');
+      }
+      updateScoreDisplay();
+    }
+
+    function updateScoreDisplay() {
+      document.getElementById('scoreDisplay').textContent = `${userScore} / ${currentQuiz.length}`;
+    }
+
+    function resetQuiz() {
+      renderQuiz();
+    }
+
+    // Initialize default assessment
+    generateCustomQuiz();
+  </script>
+</body>
+</html>
